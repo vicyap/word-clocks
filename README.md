@@ -8,6 +8,10 @@ The long-term direction is a collection of installable widgets for macOS, iOS, A
 
 - `Sources/WordClocks`: Swift package source.
 - `Tests/WordClocksTests`: Swift unit tests.
+- `Apps/WordClocksMac`: Native macOS containing app.
+- `Apps/WordClocksWidgetsExtension`: WidgetKit extension for desktop widgets.
+- `project.yml`: XcodeGen project definition. `WordClocks.xcodeproj` is generated locally.
+- `script`: Local setup, build, run, and widget-debug helpers.
 - `references`: Ignored local clones and reference projects. Only `references/README.md` is tracked.
 
 ## Local Reference Clone
@@ -28,6 +32,27 @@ Run the Swift test suite:
 swift test
 ```
 
+Generate the Xcode project:
+
+```sh
+brew bundle
+xcodegen generate
+```
+
+Build and launch the macOS containing app:
+
+```sh
+./script/build_and_run.sh --verify
+```
+
+Build the WidgetKit extension and open the project for widget debugging:
+
+```sh
+./script/debug_widget.sh
+```
+
+The first WidgetKit target is a native macOS desktop widget named "Three Word Clock". It supports small, medium, large, and extra-large families. After launching the debug app, open the macOS widget gallery and add the Word Clocks widget to the desktop.
+
 The current package exposes English three-word clock phrase logic using five-minute buckets:
 
 ```swift
@@ -43,7 +68,8 @@ print(phrase.displayLines) // ["QUARTER", "TO", "FOUR"]
 ## Roadmap
 
 - Keep the Swift package as the canonical first implementation.
-- Add native Apple app/widget targets after the core phrase behavior is stable.
+- Iterate on the macOS widget design after the MVP is easy to build and test.
+- Add iOS and Apple Watch targets after the macOS WidgetKit path is stable.
 - Add additional languages and clock styles as separate, tested modules.
 - Add web or Linux implementations only when a concrete target is planned.
 
