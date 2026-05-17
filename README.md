@@ -58,7 +58,7 @@ Build the WidgetKit extension and open the project for widget debugging:
 ./script/debug_widget.sh
 ```
 
-The first WidgetKit target is a native macOS desktop widget named "Three Word Clock". It supports small, medium, large, and extra-large families. After launching the debug app, open the macOS widget gallery and add the Word Clocks widget to the desktop.
+The first WidgetKit target is a native macOS desktop widget named "Three Word Clock". It supports small, medium, and large families. After launching the debug app, open the macOS widget gallery and add the Word Clocks widget to the desktop.
 
 If the widget gallery was already open before building, close and reopen it. If the widget still does not appear, refresh Notification Center and rebuild:
 

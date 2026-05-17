@@ -55,7 +55,7 @@ private struct ThreeWordClockWidgetView: View {
             CompactClockView(entry: entry)
         case .systemMedium:
             WideClockView(entry: entry)
-        case .systemLarge, .systemExtraLarge:
+        case .systemLarge:
             LargeClockView(entry: entry)
         default:
             CompactClockView(entry: entry)
@@ -204,7 +204,7 @@ struct ThreeWordClockWidget: Widget {
         }
         .configurationDisplayName("Three Word Clock")
         .description("Shows the current time as a short phrase.")
-        .supportedFamilies([.systemSmall, .systemMedium, .systemLarge, .systemExtraLarge])
+        .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
     }
 }
 
