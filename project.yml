@@ -37,6 +37,7 @@ targets:
         INFOPLIST_FILE: Apps/WordClocksMac/Info.plist
         PRODUCT_BUNDLE_IDENTIFIER: com.vicyap.WordClocks
         PRODUCT_NAME: WordClocksMac
+        CODE_SIGN_ENTITLEMENTS: Apps/WordClocksMac/WordClocksMac.entitlements
   WordClocksWidgetsExtension:
     type: app-extension
     platform: macOS
@@ -53,6 +54,7 @@ targets:
         LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks"
         PRODUCT_BUNDLE_IDENTIFIER: com.vicyap.WordClocks.widgets
         PRODUCT_NAME: WordClocksWidgetsExtension
+        CODE_SIGN_ENTITLEMENTS: Apps/WordClocksWidgetsExtension/WordClocksWidgetsExtension.entitlements
         SKIP_INSTALL: YES
 schemes:
   WordClocksMac:
