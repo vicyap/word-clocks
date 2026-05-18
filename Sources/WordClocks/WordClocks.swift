@@ -2,6 +2,7 @@ import Foundation
 
 public struct ThreeWordClockPhrase: Equatable, Sendable {
     public let words: [String]
+    public let qualifier: String?
 
     public var text: String {
         words.joined(separator: " ")
@@ -11,9 +12,10 @@ public struct ThreeWordClockPhrase: Equatable, Sendable {
         words + Array(repeating: "", count: max(0, 3 - words.count))
     }
 
-    public init(words: [String]) {
+    public init(words: [String], qualifier: String? = nil) {
         precondition(words.count <= 3, "Three-word clock phrases can contain at most three display words.")
         self.words = words
+        self.qualifier = qualifier
     }
 }
 
@@ -34,19 +36,47 @@ public struct ThreeWordClock: Sendable {
         precondition((0..<24).contains(hour), "Hour must be in the range 0..<24.")
         precondition((0..<60).contains(minute), "Minute must be in the range 0..<60.")
 
+        let anchor = fiveMinuteAnchor(for: minute)
+        let anchorHour = hour + (anchor.minute / 60)
+        let normalizedAnchorMinute = anchor.minute % 60
+
+        return ThreeWordClockPhrase(
+            words: phraseWords(hour: anchorHour, minute: normalizedAnchorMinute),
+            qualifier: anchor.qualifier
+        )
+    }
+
+    private func fiveMinuteAnchor(for minute: Int) -> (minute: Int, qualifier: String?) {
+        let remainder = minute % 5
+
+        switch remainder {
+        case 0:
+            return (minute, nil)
+        case 1:
+            return (minute - remainder, "JUST")
+        case 2:
+            return (minute - remainder, "ABOUT")
+        case 3:
+            return (minute + (5 - remainder), "ABOUT")
+        case 4:
+            return (minute + (5 - remainder), "NEARLY")
+        default:
+            preconditionFailure("Unsupported minute remainder.")
+        }
+    }
+
+    private func phraseWords(hour: Int, minute: Int) -> [String] {
+        precondition(minute % 5 == 0, "Minute anchors must be five-minute boundaries.")
+
         let fiveMinuteBucket = minute / 5
 
         switch fiveMinuteBucket {
         case 0:
-            return ThreeWordClockPhrase(words: exactHourWords(for: hour))
+            return exactHourWords(for: hour)
         case 1...6:
-            return ThreeWordClockPhrase(
-                words: offsetWords(for: fiveMinuteBucket) + [hourWord(for: hour)]
-            )
+            return offsetWords(for: fiveMinuteBucket) + [hourWord(for: hour)]
         case 7...11:
-            return ThreeWordClockPhrase(
-                words: offsetWords(for: fiveMinuteBucket) + [hourWord(for: hour + 1)]
-            )
+            return offsetWords(for: fiveMinuteBucket) + [hourWord(for: hour + 1)]
         default:
             preconditionFailure("Unexpected five-minute bucket.")
         }

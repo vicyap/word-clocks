@@ -4,6 +4,12 @@ Word Clocks is an open-source collection of native word-clock widgets and shared
 
 The long-term direction is a collection of installable widgets for macOS, iOS, Apple Watch, and eventually Linux. The core logic should stay small and reusable so platform targets can share behavior while still feeling native.
 
+## Screenshots
+
+![macOS desktop showing Three Word Clock widgets](docs/screenshots/macos-desktop-widgets.png)
+
+![Classic, Minimal, and Ink widget styles](docs/screenshots/widget-styles.png)
+
 ## Repository Layout
 
 - `Sources/WordClocks`: Swift package source.
@@ -58,7 +64,7 @@ Build the WidgetKit extension and open the project for widget debugging:
 ./script/debug_widget.sh
 ```
 
-The first WidgetKit target is a native macOS desktop widget named "Three Word Clock". It supports small, medium, and large families. After launching the debug app, open the macOS widget gallery and add the Word Clocks widget to the desktop.
+The WidgetKit extension exposes three native macOS desktop widgets: "Three Word Clock - Classic", "Three Word Clock - Minimal", and "Three Word Clock - Ink". Each supports small, medium, and large families. After launching the debug app, open the macOS widget gallery and add the Word Clocks widgets to the desktop.
 
 If the widget gallery was already open before building, close and reopen it. If the widget still does not appear, refresh Notification Center and rebuild:
 
@@ -67,16 +73,17 @@ killall NotificationCenter
 ./script/build_and_run.sh --verify
 ```
 
-The current package exposes English three-word clock phrase logic using five-minute buckets:
+The current package exposes English three-word clock phrase logic using minute-aware approximate phrasing. The main phrase stays within three display words, while `JUST`, `ABOUT`, and `NEARLY` are exposed separately as an optional qualifier around the nearest five-minute spoken anchor:
 
 ```swift
 import WordClocks
 
 let clock = ThreeWordClock()
-let phrase = clock.phrase(hour: 3, minute: 45)
+let phrase = clock.phrase(hour: 16, minute: 36)
 
-print(phrase.text) // QUARTER TO FOUR
-print(phrase.displayLines) // ["QUARTER", "TO", "FOUR"]
+print(phrase.qualifier ?? "") // JUST
+print(phrase.text) // TWENTY-FIVE TO FIVE
+print(phrase.displayLines) // ["TWENTY-FIVE", "TO", "FIVE"]
 ```
 
 ## Roadmap

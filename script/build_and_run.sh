@@ -41,6 +41,17 @@ ditto "$BUILT_APP" "$DIST_APP"
   "$DIST_APP"
 
 if [ -d "$WIDGET_EXTENSION" ]; then
+  while IFS= read -r registered_extension; do
+    if [ "$registered_extension" != "$WIDGET_EXTENSION" ]; then
+      pluginkit -r "$registered_extension" >/dev/null 2>&1 || true
+    fi
+  done < <(
+    pluginkit -m -A -D -v -i "$WIDGET_BUNDLE_ID" 2>/dev/null \
+      | awk '{print $NF}' \
+      | grep '/WordClocksWidgetsExtension\.appex$' \
+      || true
+  )
+
   pluginkit -a "$WIDGET_EXTENSION" >/dev/null 2>&1 || true
 fi
 

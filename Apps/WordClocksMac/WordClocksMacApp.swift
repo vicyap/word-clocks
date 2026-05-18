@@ -30,6 +30,12 @@ private struct ContentView: View {
                 }
 
                 VStack(alignment: .leading, spacing: 10) {
+                    Text(phrase.qualifier ?? "NEARLY")
+                        .font(.caption.weight(.bold))
+                        .monospaced()
+                        .foregroundStyle(.secondary)
+                        .opacity(phrase.qualifier == nil ? 0 : 1)
+
                     ForEach(Array(phrase.displayLines.enumerated()), id: \.offset) { _, word in
                         Text(word.isEmpty ? " " : word)
                             .font(.system(size: 38, weight: .semibold, design: .rounded))
