@@ -88,11 +88,12 @@ print(phrase.displayLines) // ["TWENTY-FIVE", "TO", "FIVE"]
 
 ## Roadmap
 
-- Keep the Swift package as the canonical first implementation.
-- Iterate on the macOS widget design after the MVP is easy to build and test.
-- Add iOS and Apple Watch targets after the macOS WidgetKit path is stable.
-- Add additional languages and clock styles as separate, tested modules.
-- Add web or Linux implementations only when a concrete target is planned.
+- Finish macOS widget gallery verification: confirm Classic, Minimal, and Ink appear as separate widgets with small, medium, and large sizes only.
+- Replace or supplement the generated README images with live desktop screenshots after the gallery flow is confirmed.
+- Tighten the local widget debug path around Notification Center refreshes, PlugInKit registration, and stale WidgetKit/Chrono caches.
+- Polish the macOS layouts against real gallery previews, especially qualifier placement, type scale, and minute-boundary updates.
+- Add more tested phrase modules, languages, and clock styles after the macOS WidgetKit path is stable.
+- Plan iOS and Apple Watch targets once the shared Swift package and macOS widgets are boring to build and verify.
 
 ## License
 
